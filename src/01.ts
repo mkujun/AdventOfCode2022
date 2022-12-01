@@ -4,7 +4,7 @@ const file: number[] = readFileSync('../inputs/01.txt', 'utf-8').split('\n').map
 let sum: number = 0;
 let topThree: number[] = [];
 
-function compareNumbers(a: number, b: number) {
+function compareNumbers(a: number, b: number): number {
   return a - b;
 }
 
@@ -29,8 +29,8 @@ file.forEach((e: number) => {
 
 console.log("part 1", topThree[2]);
 
-const initialValue:number = 0;
-const sumWithInitial:number = topThree.reduce(
+const initialValue: number = 0;
+const sumWithInitial: number = topThree.reduce(
   (accumulator:number, currentValue:number) => accumulator + currentValue,
   initialValue
 );
