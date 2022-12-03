@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-//const input: string[] = readFileSync('../inputs/test.txt', 'utf-8').split('\n').slice(0, -1);
 const input: string[] = readFileSync('../inputs/03.txt', 'utf-8').split('\n').slice(0, -1);
 
 function letterValue(letter: string): number {
@@ -19,22 +18,46 @@ function splitCompartments(row: string): string[] {
 }
 
 function letterInBothCompartments(comp1: string, comp2: string): string {
-  const one = comp1.split('');
-  const two = comp2.split('');
-  const intersection = one.filter(element => two.includes(element));
+  const one: string[] = comp1.split('');
+  const two: string[] = comp2.split('');
+  const intersection: string[] = one.filter(element => two.includes(element));
 
   return intersection[0];
 }
 
-let sum: number = 0;
+function commonInThree(one: string[], two: string[], three: string[]): void {
+  let data: string[][]= [one, two, three];
+  let result: string[] = data.reduce((a,b) => a.filter(c => b.includes(c)));
+
+  part2 = part2 + letterValue(result[0]);
+}
+
+function takeThree(input: string[]) {
+  let one: string[];
+  let two: string[];
+  let three: string[];
+  
+  for(let i: number = 0; i < input.length; i = i + 3) {
+    one = input[i].split('').slice(0, -1);
+    two = input[i + 1].split('').slice(0, -1);
+    three = input[i + 2].split('').slice(0, -1);
+
+    commonInThree(one, two, three);
+  }
+}
+
+let part1: number = 0;
 
 input.forEach((e: string) => {
   const compartments = splitCompartments(e);
   const sameLetter = letterInBothCompartments(compartments[0], compartments[1]);
-  //console.log(compartments);
-  //console.log("sameLetter", sameLetter);
   const value = letterValue(sameLetter);
-  sum = sum + value;
+  part1 = part1 + value;
 })
 
-console.log("part 1", sum);
+console.log("part 1", part1);
+
+let part2: number = 0;
+takeThree(input);
+console.log("part 2", part2);
+
