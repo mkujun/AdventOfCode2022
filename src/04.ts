@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-//const input: string[] = readFileSync('../inputs/test.txt', 'utf-8').split('\n').slice(0, -1);
 const input: string[] = readFileSync('../inputs/04.txt', 'utf-8').split('\n').slice(0, -1);
 
 interface Pair {
@@ -25,14 +24,7 @@ function splitRowIntoPairs(pair: string): Pair[] {
   return [first, second]
 }
 
-//.2345678.  2-8 p1
-//..34567..  3-7 p2
-//
-//
-//..34567..  3-7 p1
-//.2345678.  2-8 p2
-
-function intervalCross(pairs: Pair[]): void {
+function overlapAll(pairs: Pair[]): void {
   const p1: Pair = pairs[0];
   const p2: Pair = pairs[1];
 
@@ -45,11 +37,26 @@ function intervalCross(pairs: Pair[]): void {
   }
 }
 
+function overlapSome(pairs: Pair[]): void {
+  const p1: Pair = pairs[0];
+  const p2: Pair = pairs[1];
+
+  const lo: number = Math.max(p1.from, p2.from);
+  const hi: number= Math.min(p1.to, p2.to);
+
+  if (lo <= hi) {
+    part2++;
+  }
+}
+
 let part1: number = 0;
+let part2: number = 0;
 
 input.forEach((e: string) => {
   const pairs: Pair[] = splitRowIntoPairs(e);
-  intervalCross(pairs);
+  overlapAll(pairs);
+  overlapSome(pairs);
 })
 
 console.log("part 1", part1);
+console.log("part 2", part2);
