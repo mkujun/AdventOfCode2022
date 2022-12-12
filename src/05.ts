@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-//const input: string[] = readFileSync('../inputs/test.txt', 'utf-8').split('\n').slice(0, -1);
 const input: string[] = readFileSync('../inputs/05.txt', 'utf-8').split('\n').slice(0, -1);
 
 interface Stack {
@@ -49,11 +48,13 @@ function parseMoves(e: string): void {
     const from: number = parseInt(numbers[1]);
     const to: number = parseInt(numbers[2]);
 
-    moveCrates(move, from, to);
+    crateMover9000(move, from, to); // part 1 function
+    //crateMover9001(move, from, to); // part 2 function
   }
 }
 
-function moveCrates(move: number, from: number, to: number): void {
+// part 1
+function crateMover9000(move: number, from: number, to: number): void {
   let fromStack: Stack = stacks.find((s: Stack) => s.ind === from)!;
   let toStack: Stack = stacks.find((s: Stack) => s.ind === to)!;
 
@@ -63,8 +64,23 @@ function moveCrates(move: number, from: number, to: number): void {
   }
 }
 
+// part 2
+function crateMover9001(move: number, from: number, to: number): void {
+  let fromStack: Stack = stacks.find((s: Stack) => s.ind === from)!;
+  let toStack: Stack = stacks.find((s: Stack) => s.ind === to)!;
+  let elements: string[] = fromStack.val.splice(0, move);
+
+  if (elements.length === 1) {
+    toStack.val.unshift(elements[0]);
+  }
+  else if (elements.length > 1) {
+    for(let i:number = elements.length - 1; i >= 0; i--) {
+      toStack.val.unshift(elements[i]);
+    }
+  }
+}
+
 createStacks();
-console.log(stacks);
 
 input.forEach((e: string) => {
   if (!e.startsWith('move', 0)) {
@@ -75,12 +91,19 @@ input.forEach((e: string) => {
   }
 })
 
-console.log(stacks);
-
-let topStacks: string = '';
-
+/*
+let part2: string = '';
 stacks.forEach((s: Stack) => {
-  topStacks = topStacks + s.val[0];
+  part2 = part2 + s.val[0];
 })
 
-console.log("part 1", topStacks);
+console.log("part 2", part2);
+*/
+
+let part1: string = '';
+
+stacks.forEach((s: Stack) => {
+  part1 = part1 + s.val[0];
+})
+
+console.log("part 1", part1);
