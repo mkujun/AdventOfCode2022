@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-//const input: string[] = readFileSync('../inputs/test.txt', 'utf-8').split('\n').slice(0, -1);
 const input: string[] = readFileSync('../inputs/08.txt', 'utf-8').split('\n').slice(0, -1);
 
 let columns:number = 0;
@@ -18,8 +17,77 @@ function traverseGrid(): void {
   for(let i: number = 1; i < rows - 1; i++) {
     for(let j: number = 1; j < columns - 1; j++) {
       checkInsideGrid(i, j);
+      findScenicScore(i, j);
     }
   }
+}
+
+function scenicLeft(i: number, j: number): number {
+  let counter:number = 0;
+
+  for(let cC: number = j - 1; cC >= 0; cC--) {
+    if (grid[i][cC] >= grid[i][j]) {
+      counter++;
+      break;
+    }
+    else {
+      counter++;
+      continue;
+    }
+  }
+
+  return counter;
+}
+
+function scenicTop(i: number, j: number): number {
+  let counter:number = 0;
+
+  for(let rC: number = i - 1; rC >= 0; rC--) {
+    if (grid[rC][j] >= grid[i][j]) {
+      counter++;
+      break;
+    }
+    else {
+      counter++;
+      continue;
+    }
+  }
+
+  return counter;
+}
+
+function scenicBottom(i: number, j: number): number {
+  let counter:number = 0;
+
+  for(let rC: number = i + 1; rC < columns; rC++) {
+    if (grid[rC][j] >= grid[i][j]) {
+      counter++;
+      break;
+    }
+    else {
+      counter++;
+      continue;
+    }
+  }
+
+  return counter;
+}
+
+function scenicRight(i: number, j: number): number {
+  let counter:number = 0;
+
+  for(let cC: number = j + 1; cC < rows ; cC++) {
+    if (grid[i][cC] >= grid[i][j]) {
+      counter++;
+      break;
+    }
+    else {
+      counter++;
+      continue;
+    }
+  }
+
+  return counter;
 }
 
 function visibleLeft(i: number, j: number): boolean {
@@ -86,6 +154,18 @@ function visibleBottom(i: number, j: number): boolean {
   return isVisible;
 }
 
+function findScenicScore(i: number, j: number): void {
+  const sL:number = scenicLeft(i,j);
+  const sR:number = scenicRight(i,j);
+  const sT:number = scenicTop(i,j);
+  const sB:number = scenicBottom(i,j);
+
+  const sS:number = sR * sL * sT * sB;
+  if (sS > scenicScore) {
+    scenicScore = sS;
+  }
+}
+
 function checkInsideGrid(i: number, j: number): void {
   let vLeft = visibleLeft(i, j);
   let vRight = visibleRight(i, j);
@@ -100,6 +180,7 @@ function checkInsideGrid(i: number, j: number): void {
 
 buildGrid();
 let visible: number = rows * 2 + columns * 2 - 4; // visible from outside the grid
+let scenicScore:number = 0;
 traverseGrid();
 console.log("part 1", visible);
-
+console.log("part 2", scenicScore);
