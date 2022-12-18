@@ -5,7 +5,6 @@ const input: string[] = readFileSync('../inputs/10.txt', 'utf-8').split('\n').sl
 let x: number = 1;
 let cycleNo: number = 0;
 let sum: number = 0;
-
 let cycleToComplete:number = 0;
 
 for(let i:number = 0; i < input.length; i++) {
@@ -15,28 +14,22 @@ for(let i:number = 0; i < input.length; i++) {
   do {
     cycleNo++;
     if (cycleNo === 20) {
-      const signalStrength: number = x * cycleNo;
-      sum = sum + signalStrength;
+      signalStrength();
     }
     if (cycleNo === 60) {
-      const signalStrength: number = x * cycleNo;
-      sum = sum + signalStrength;
+      signalStrength();
     }
     if (cycleNo === 100) {
-      const signalStrength: number = x * cycleNo;
-      sum = sum + signalStrength;
+      signalStrength();
     }
     if (cycleNo === 140) {
-      const signalStrength: number = x * cycleNo;
-      sum = sum + signalStrength;
+      signalStrength();
     }
     if (cycleNo === 180) {
-      const signalStrength: number = x * cycleNo;
-      sum = sum + signalStrength;
+      signalStrength();
     }
     if (cycleNo === 220) {
-      const signalStrength: number = x * cycleNo;
-      sum = sum + signalStrength;
+      signalStrength();
     }
 
     cycleToComplete--;
@@ -45,8 +38,12 @@ for(let i:number = 0; i < input.length; i++) {
   splits.length > 1 ? addValue(splits[1]) : addValue("0");
 }
 
+function signalStrength():void {
+  const signalStrength: number = x * cycleNo;
+  sum = sum + signalStrength;
+}
+
 function takeInstruction(instruction: string):void {
-  //console.log("instruction", instruction);
   if (instruction === 'addx') {
     cycleToComplete = 2;
   }
